@@ -11,7 +11,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/accommodations")
-@Tag(name = "LabB - Accommodation")
+@Tag(name = "Accommodation-Controller")
 
 public class AccommodationController {
 
