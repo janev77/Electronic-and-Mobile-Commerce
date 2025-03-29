@@ -14,19 +14,18 @@ public class AccommodationDto {
 
     private Integer numRooms;
 
-    private Boolean markRented;
+    private Long reservation;
 
     public AccommodationDto() {
     }
 
-    public AccommodationDto(String name, Category category, Long host, Integer numRooms, Boolean markRented) {
+    public AccommodationDto(String name, Category category, Long host, Integer numRooms, Long reservation) {
         this.name = name;
         this.category = category;
         this.host = host;
         this.numRooms = numRooms;
-        this.markRented = markRented;
+        this.reservation = reservation;
     }
-
 
     public String getName() {
         return name;
@@ -60,11 +59,11 @@ public class AccommodationDto {
         this.numRooms = numRooms;
     }
 
-    public Boolean getMarkRented() {
-        return markRented;
+    public Long getReservation() {
+        return reservation;
     }
 
-    public void setMarkRented(Boolean markRented) {
-        this.markRented = markRented;
+    public void setReservation(Long reservation) {
+        this.reservation = reservation;
     }
 }

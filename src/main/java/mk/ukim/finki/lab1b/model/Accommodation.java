@@ -1,8 +1,11 @@
 package mk.ukim.finki.lab1b.model;
 
+
 import jakarta.persistence.*;
 import lombok.Data;
 import mk.ukim.finki.lab1b.model.Enumerations.Category;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Data
@@ -22,17 +25,19 @@ public class Accommodation {
 
     private Integer numRooms;
 
-    private Boolean markRented;
+//    @OneToMany(mappedBy = "accommodation")
+//    private List<Reservation> reservationList;
+
 
     public Accommodation() {
     }
 
-    public Accommodation(String name, Category category, Host host, Integer numRooms, Boolean markRented) {
+    public Accommodation(String name, Category category, Host host, Integer numRooms) {
         this.name = name;
         this.category = category;
         this.host = host;
         this.numRooms = numRooms;
-        this.markRented = markRented;
+        //reservationList = new ArrayList<>();
     }
 
     public Long getId() {
@@ -75,11 +80,14 @@ public class Accommodation {
         this.numRooms = numRooms;
     }
 
-    public Boolean getMarkRented() {
-        return markRented;
-    }
-
-    public void setMarkRented(Boolean markRented) {
-        this.markRented = markRented;
-    }
+//    public List<Reservation> getReservationList() {
+//        return reservationList;
+//    }
+//
+//    public void setReservationList(List<Reservation> reservationList) {
+//        this.reservationList = reservationList;
+//    }
 }
+
+
+

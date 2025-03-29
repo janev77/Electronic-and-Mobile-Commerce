@@ -53,11 +53,4 @@ public class AccommodationController {
         }
         return ResponseEntity.notFound().build();
     }
-
-    @PutMapping("/{id}/rent")
-    public ResponseEntity<Accommodation> rentAccommodation(@PathVariable Long id) {
-        return this.accommodationService.isRented(id)
-                .map(ResponseEntity::ok)
-                .orElseGet(() -> ResponseEntity.badRequest().build());
-    }
 }

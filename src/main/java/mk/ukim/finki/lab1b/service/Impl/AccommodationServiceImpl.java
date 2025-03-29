@@ -3,9 +3,11 @@ package mk.ukim.finki.lab1b.service.Impl;
 import mk.ukim.finki.lab1b.model.Accommodation;
 import mk.ukim.finki.lab1b.model.Dto.AccommodationDto;
 import mk.ukim.finki.lab1b.model.Host;
+import mk.ukim.finki.lab1b.model.Reservation;
 import mk.ukim.finki.lab1b.repository.AccommodationRepository;
 import mk.ukim.finki.lab1b.service.AccommodationService;
 import mk.ukim.finki.lab1b.service.HostService;
+import mk.ukim.finki.lab1b.service.ReservationService;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -48,9 +50,6 @@ public class AccommodationServiceImpl implements AccommodationService {
             if (accommodationDto.getCategory() != null) {
                existingAccommodation.setCategory(accommodationDto.getCategory());
             }
-            if (accommodationDto.getMarkRented() != null) {
-                existingAccommodation.setMarkRented(accommodationDto.getMarkRented());
-            }
 
             return accommodationRepository.save(existingAccommodation);
         });
@@ -70,8 +69,8 @@ public class AccommodationServiceImpl implements AccommodationService {
                     accommodationDto.getName(),
                     accommodationDto.getCategory(),
                     host,
-                    accommodationDto.getNumRooms(),
-                    accommodationDto.getMarkRented())
+                    accommodationDto.getNumRooms()
+                    )
             ));
         }
         System.out.println("Host not found or invalid data.");
@@ -83,15 +82,4 @@ public class AccommodationServiceImpl implements AccommodationService {
         accommodationRepository.deleteById(id);
     }
 
-    @Override
-    public Optional<Accommodation> isRented(Long id) {
-        return accommodationRepository.findById(id).map(existingAccommodation -> {
-            existingAccommodation.setMarkRented(true);
-
-            if (existingAccommodation.getNumRooms()>0){
-                existingAccommodation.setNumRooms(existingAccommodation.getNumRooms() - 1);
-            }
-            return accommodationRepository.save(existingAccommodation);
-        });
-    }
 }

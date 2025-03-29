@@ -5,10 +5,14 @@ import mk.ukim.finki.lab1b.model.Accommodation;
 import mk.ukim.finki.lab1b.model.Country;
 import mk.ukim.finki.lab1b.model.Enumerations.Category;
 import mk.ukim.finki.lab1b.model.Host;
+import mk.ukim.finki.lab1b.model.Reservation;
 import mk.ukim.finki.lab1b.repository.AccommodationRepository;
 import mk.ukim.finki.lab1b.repository.CountryRepository;
 import mk.ukim.finki.lab1b.repository.HostRepository;
+import mk.ukim.finki.lab1b.repository.ReservationRepository;
 import org.springframework.stereotype.Component;
+
+import java.time.LocalDate;
 
 @Component
 public class DataInitializer {
@@ -16,11 +20,13 @@ public class DataInitializer {
     private final AccommodationRepository accommodationRepository;
     private final HostRepository hostRepository;
     private final CountryRepository countryRepository;
+    private final ReservationRepository reservationRepository;
 
-    public DataInitializer(AccommodationRepository accommodationRepository, HostRepository hostRepository, CountryRepository countryRepository) {
+    public DataInitializer(AccommodationRepository accommodationRepository, HostRepository hostRepository, CountryRepository countryRepository, ReservationRepository reservationRepository) {
         this.accommodationRepository = accommodationRepository;
         this.hostRepository = hostRepository;
         this.countryRepository = countryRepository;
+        this.reservationRepository = reservationRepository;
     }
 
 
@@ -49,14 +55,23 @@ public class DataInitializer {
         hostRepository.save(host4);
 
 
-        Accommodation acc1 = accommodationRepository.save(new Accommodation("Manoli's", Category.HOTEL,host1,67,false));
-        Accommodation acc2 = accommodationRepository.save(new Accommodation("Fishy", Category.APARTMENT,host2,3,true));
-        Accommodation acc3 = accommodationRepository.save(new Accommodation("Moni's", Category.FLAT,host3,2,false));
-        Accommodation acc4 = accommodationRepository.save(new Accommodation("Tagora's", Category.MOTEL,host4,90,false));
+        Accommodation acc1 = accommodationRepository.save(new Accommodation("Manoli's", Category.HOTEL,host1,67));
+        Accommodation acc2 = accommodationRepository.save(new Accommodation("Fishy", Category.APARTMENT,host2,3));
+        Accommodation acc3 = accommodationRepository.save(new Accommodation("Moni's", Category.FLAT,host3,2));
+        Accommodation acc4 = accommodationRepository.save(new Accommodation("Tagora's", Category.MOTEL,host4,90));
 
         accommodationRepository.save(acc1);
         accommodationRepository.save(acc2);
         accommodationRepository.save(acc3);
         accommodationRepository.save(acc4);
+
+
+        Reservation res1 = reservationRepository.save(new Reservation("1213", LocalDate.now(),LocalDate.now(),2,500,acc1));
+        Reservation res2 = reservationRepository.save(new Reservation("1214",LocalDate.now(),LocalDate.now(),2,500,acc2));
+        Reservation res3 = reservationRepository.save(new Reservation("1253",LocalDate.now(),LocalDate.now(),2,500,acc3));
+
+        reservationRepository.save(res1);
+        reservationRepository.save(res2);
+        reservationRepository.save(res3);
     }
 }

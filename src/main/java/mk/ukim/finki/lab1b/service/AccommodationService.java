@@ -18,6 +18,4 @@ public interface AccommodationService {
 
     void deleteById(Long id);
 
-    Optional<Accommodation> isRented(Long id);
-
 }
