@@ -23,7 +23,7 @@ public interface AccommodationApplicationService {
 
     void deleteById(Long id);
 
-    Map<Category, Long> statisticCategory();
+    Map<Category,  Long> statisticCategory();
 
 
 }

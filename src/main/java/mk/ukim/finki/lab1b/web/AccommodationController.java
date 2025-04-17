@@ -73,7 +73,7 @@ public class AccommodationController {
     }
 
     @GetMapping("/statistic")
-    public Map<Category,Long> statistic() {
+    public Map<Category, Long> statistic() {
        return accommodationApplicationService.statisticCategory();
     }
 

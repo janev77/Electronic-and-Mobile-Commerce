@@ -73,6 +73,7 @@ public class AccommodationApplicationServiceImpl implements AccommodationApplica
             .collect(Collectors.groupingBy(
                     Accommodation::getCategory,
                     Collectors.counting()
+                    
             ));
     }
 }
