@@ -2,11 +2,14 @@ package mk.ukim.finki.lab1b.service.domain.Impl;
 
 import mk.ukim.finki.lab1b.model.Domain.Accommodation;
 import mk.ukim.finki.lab1b.model.Domain.Host;
+import mk.ukim.finki.lab1b.model.Enumerations.Category;
 import mk.ukim.finki.lab1b.repository.AccommodationRepository;
 import mk.ukim.finki.lab1b.service.domain.AccommodationService;
 import mk.ukim.finki.lab1b.service.domain.HostService;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -78,5 +81,51 @@ public class AccommodationServiceImpl implements AccommodationService {
     public void deleteById(Long id) {
         accommodationRepository.deleteById(id);
     }
+
+    @Override
+    public HashMap<String, Integer> statisticCategory() {
+
+        List<Accommodation> accommodations = accommodationRepository.findAll();
+
+        int rooms = 0;
+        int houses = 0;
+        int flats = 0;
+        int apartments = 0;
+        int hotels = 0;
+        int motels = 0;
+
+        for(Accommodation accommodation : accommodations){
+            if (accommodation.getCategory().toString().equals("ROOM")){
+                rooms++;
+            }
+            if (accommodation.getCategory().toString().equals("HOUSE")){
+                houses++;
+            }
+            if (accommodation.getCategory().toString().equals("FLAT")){
+                flats++;
+            }
+            if (accommodation.getCategory().toString().equals("APARTMENT")){
+                apartments++;
+            }
+            if (accommodation.getCategory().toString().equals("HOTEL")){
+                hotels++;
+            }
+            if (accommodation.getCategory().toString().equals("MOTEL")){
+                motels++;
+            }
+        }
+
+        HashMap<String, Integer> result = new HashMap<>();
+
+        result.put("ROOM",rooms);
+        result.put("HOUSE",houses);
+        result.put("FLAT",flats);
+        result.put("APARTMENT",apartments);
+        result.put("HOTEL",hotels);
+        result.put("MOTEL",motels);
+
+        return result;
+    }
+
 
 }

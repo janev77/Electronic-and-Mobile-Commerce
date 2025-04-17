@@ -41,7 +41,6 @@ public class ReservationApplicationServiceImpl implements ReservationApplication
 
         Optional<Accommodation> accommodation = accommodationService.findById(createReservationDto.accommodationId());
 
-
         if (accommodation.isPresent()) {
             return reservationService.save(createReservationDto.toReservation(accommodation.get())).map(DisplayReservationDto::from);
 
@@ -64,22 +63,22 @@ public class ReservationApplicationServiceImpl implements ReservationApplication
         reservationService.deleteById(id);
     }
 
-    @Override
-    public Optional<DisplayReservationDto> addTemporaryReservation(CreateReservationDto createReservationDto, String username) {
-        return reservationService.addTemporaryReservation(
-                createReservationDto.toReservation(
-                        reservationService.findById(createReservationDto.accommodationId()).get().getAccommodation()
-                )
-        ).map(DisplayReservationDto::from);
-    }
-
-    @Override
-    public List<DisplayReservationDto> getTemporaryReservationsForUser(String username) {
-        return DisplayReservationDto.from(reservationService.getTemporaryReservationsForUser(username));
-    }
-
-    @Override
-    public void confirmAllReservationsForUser(String username) {
-        reservationService.confirmAllReservationsForUser(username);
-    }
+//    @Override
+//    public Optional<DisplayReservationDto> addTemporaryReservation(CreateReservationDto createReservationDto, String username) {
+//        return reservationService.addTemporaryReservation(
+//                createReservationDto.toReservation(
+//                        reservationService.findById(createReservationDto.accommodationId()).get().getAccommodation()
+//                )
+//        ).map(DisplayReservationDto::from);
+//    }
+//
+//    @Override
+//    public List<DisplayReservationDto> getTemporaryReservationsForUser(String username) {
+//        return DisplayReservationDto.from(reservationService.getTemporaryReservationsForUser(username));
+//    }
+//
+//    @Override
+//    public void confirmAllReservationsForUser(String username) {
+//        reservationService.confirmAllReservationsForUser(username);
+//    }
 }

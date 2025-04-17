@@ -18,9 +18,9 @@ public interface ReservationApplicationService {
 
     void deleteById(Long id);
 
-    Optional<DisplayReservationDto> addTemporaryReservation(CreateReservationDto createReservationDto, String username);
-
-    List<DisplayReservationDto> getTemporaryReservationsForUser(String username);
-
-    void confirmAllReservationsForUser(String username);
+//    Optional<DisplayReservationDto> addTemporaryReservation(CreateReservationDto createReservationDto, String username);
+//
+//    List<DisplayReservationDto> getTemporaryReservationsForUser(String username);
+//
+//    void confirmAllReservationsForUser(String username);
 }
