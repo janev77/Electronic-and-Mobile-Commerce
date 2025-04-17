@@ -1,15 +1,11 @@
 package mk.ukim.finki.lab1b.config;
 
 import jakarta.annotation.PostConstruct;
-import mk.ukim.finki.lab1b.model.Accommodation;
-import mk.ukim.finki.lab1b.model.Country;
+import mk.ukim.finki.lab1b.model.Domain.*;
 import mk.ukim.finki.lab1b.model.Enumerations.Category;
-import mk.ukim.finki.lab1b.model.Host;
-import mk.ukim.finki.lab1b.model.Reservation;
-import mk.ukim.finki.lab1b.repository.AccommodationRepository;
-import mk.ukim.finki.lab1b.repository.CountryRepository;
-import mk.ukim.finki.lab1b.repository.HostRepository;
-import mk.ukim.finki.lab1b.repository.ReservationRepository;
+import mk.ukim.finki.lab1b.model.Enumerations.Role;
+import mk.ukim.finki.lab1b.repository.*;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.time.LocalDate;
@@ -21,12 +17,21 @@ public class DataInitializer {
     private final HostRepository hostRepository;
     private final CountryRepository countryRepository;
     private final ReservationRepository reservationRepository;
+    private final UserRepository userRepository;
 
-    public DataInitializer(AccommodationRepository accommodationRepository, HostRepository hostRepository, CountryRepository countryRepository, ReservationRepository reservationRepository) {
+    private final TemporaryReservationRepository temporaryReservationRepository;
+
+
+    private final PasswordEncoder passwordEncoder;
+
+    public DataInitializer(AccommodationRepository accommodationRepository, HostRepository hostRepository, CountryRepository countryRepository, ReservationRepository reservationRepository, UserRepository userRepository, TemporaryReservationRepository temporaryReservationRepository, PasswordEncoder passwordEncoder) {
         this.accommodationRepository = accommodationRepository;
         this.hostRepository = hostRepository;
         this.countryRepository = countryRepository;
         this.reservationRepository = reservationRepository;
+        this.userRepository = userRepository;
+        this.temporaryReservationRepository = temporaryReservationRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
 
@@ -55,10 +60,10 @@ public class DataInitializer {
         hostRepository.save(host4);
 
 
-        Accommodation acc1 = accommodationRepository.save(new Accommodation("Manoli's", Category.HOTEL,host1,67));
+        Accommodation acc1 = accommodationRepository.save(new Accommodation("Manoli's", Category.HOTEL,host1,3));
         Accommodation acc2 = accommodationRepository.save(new Accommodation("Fishy", Category.APARTMENT,host2,3));
-        Accommodation acc3 = accommodationRepository.save(new Accommodation("Moni's", Category.FLAT,host3,2));
-        Accommodation acc4 = accommodationRepository.save(new Accommodation("Tagora's", Category.MOTEL,host4,90));
+        Accommodation acc3 = accommodationRepository.save(new Accommodation("Moni's", Category.FLAT,host3,1));
+        Accommodation acc4 = accommodationRepository.save(new Accommodation("Tagora's", Category.MOTEL,host4,1));
 
         accommodationRepository.save(acc1);
         accommodationRepository.save(acc2);
@@ -73,5 +78,38 @@ public class DataInitializer {
         reservationRepository.save(res1);
         reservationRepository.save(res2);
         reservationRepository.save(res3);
+
+
+
+        User admin = userRepository.save(new User(
+                "admin",
+                passwordEncoder.encode("admin"),
+                "admin",
+                "admin",
+                Role.ROLE_ADMIN
+        ));
+
+        userRepository.save(admin);
+
+        User user = userRepository.save(new User(
+                "user",
+                passwordEncoder.encode("user"),
+                "user",
+                "user",
+                Role.ROLE_USER
+        ));
+        userRepository.save(user);
+
+        TemporaryReservation tmp1 = temporaryReservationRepository.save(new TemporaryReservation("1213", LocalDate.now(),LocalDate.now(),2,500,acc1,user));
+        TemporaryReservation tmp2 = temporaryReservationRepository.save(new TemporaryReservation("1214",LocalDate.now(),LocalDate.now(),2,500,acc2,admin));
+        TemporaryReservation tmp3 = temporaryReservationRepository.save(new TemporaryReservation("1253",LocalDate.now(),LocalDate.now(),2,500,acc3,user));
+        TemporaryReservation tmp4 = temporaryReservationRepository.save(new TemporaryReservation("333",LocalDate.now(),LocalDate.now(),2,500,acc3,admin));
+
+        temporaryReservationRepository.save(tmp1);
+        temporaryReservationRepository.save(tmp2);
+        temporaryReservationRepository.save(tmp3);
+        temporaryReservationRepository.save(tmp4);
+
+
     }
 }

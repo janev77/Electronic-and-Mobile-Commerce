@@ -1,6 +1,6 @@
 package mk.ukim.finki.lab1b.repository;
 
-import mk.ukim.finki.lab1b.model.Reservation;
+import mk.ukim.finki.lab1b.model.Domain.Reservation;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
