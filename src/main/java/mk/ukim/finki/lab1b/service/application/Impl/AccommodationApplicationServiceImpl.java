@@ -2,14 +2,16 @@ package mk.ukim.finki.lab1b.service.application.Impl;
 
 import mk.ukim.finki.lab1b.dto.CreateAccommodationDto;
 import mk.ukim.finki.lab1b.dto.DisplayAccommodationDto;
+import mk.ukim.finki.lab1b.model.Domain.Accommodation;
 import mk.ukim.finki.lab1b.model.Domain.Host;
+import mk.ukim.finki.lab1b.model.Enumerations.Category;
 import mk.ukim.finki.lab1b.service.application.AccommodationApplicationService;
 import mk.ukim.finki.lab1b.service.domain.AccommodationService;
 import mk.ukim.finki.lab1b.service.domain.HostService;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Service
 public class AccommodationApplicationServiceImpl implements AccommodationApplicationService {
@@ -53,5 +55,24 @@ public class AccommodationApplicationServiceImpl implements AccommodationApplica
     @Override
     public void deleteById(Long id) {
         accommodationService.deleteById(id);
+    }
+
+    @Override
+    public Map<Category, Long> statisticCategory() {
+
+//        List<Accommodation> accommodations = accommodationService.findAll();
+//
+//        HashMap<String,Integer> result = new HashMap<>();
+//
+//        for (Accommodation accommodation : accommodations){
+//            String category = accommodation.getCategory().toString();
+//            result.put(category,result.getOrDefault(category,0)+1);
+//        }
+//        return result;
+    return accommodationService.findAll().stream()
+            .collect(Collectors.groupingBy(
+                    Accommodation::getCategory,
+                    Collectors.counting()
+            ));
     }
 }

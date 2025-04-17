@@ -4,11 +4,16 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import mk.ukim.finki.lab1b.dto.CreateAccommodationDto;
 import mk.ukim.finki.lab1b.dto.DisplayAccommodationDto;
+import mk.ukim.finki.lab1b.model.Domain.Accommodation;
+import mk.ukim.finki.lab1b.model.Enumerations.Category;
 import mk.ukim.finki.lab1b.service.application.AccommodationApplicationService;
+import mk.ukim.finki.lab1b.service.domain.AccommodationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/accommodations")
@@ -17,9 +22,11 @@ import java.util.List;
 public class AccommodationController {
 
     private final AccommodationApplicationService accommodationApplicationService;
+    private final AccommodationService accommodationService;
 
-    public AccommodationController(AccommodationApplicationService accommodationApplicationService) {
+    public AccommodationController(AccommodationApplicationService accommodationApplicationService, AccommodationService accommodationService) {
         this.accommodationApplicationService = accommodationApplicationService;
+        this.accommodationService = accommodationService;
     }
 
     @GetMapping
@@ -57,11 +64,17 @@ public class AccommodationController {
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Delete accommodation by id", description = "This endpoint can delete specific accommodation by id.")
 
-    public ResponseEntity<Void> delete(@PathVariable Long id) {
+    public ResponseEntity<Void> statistic(@PathVariable Long id) {
         if (accommodationApplicationService.findById(id).isPresent()) {
             accommodationApplicationService.deleteById(id);
             return ResponseEntity.ok().build();
         }
         return ResponseEntity.notFound().build();
     }
+
+    @GetMapping("/statistic")
+    public Map<Category,Long> statistic() {
+       return accommodationApplicationService.statisticCategory();
+    }
+
 }
