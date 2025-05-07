@@ -9,7 +9,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 @Service
 public class ReservationServiceImpl implements ReservationService {
@@ -95,27 +94,4 @@ public class ReservationServiceImpl implements ReservationService {
         reservationRepository.deleteById(id);
     }
 
-    @Override
-    public Optional<Reservation> addTemporaryReservation(Reservation reservation) {
-        return Optional.of(reservationRepository.save(reservation));
-    }
-
-    @Override
-    public List<Reservation> getTemporaryReservationsForUser(String username) {
-        return reservationRepository.findAll().stream().filter(reservation -> reservation.getUser().getUsername().equals(username)&&!reservation.isConfirmed()).collect(Collectors.toList());
-
-    }
-
-    @Override
-    public void confirmAllReservationsForUser(String username) {
-        List<Reservation> reservations = getTemporaryReservationsForUser(username);
-        reservations.forEach(reservation -> {
-            reservation.setConfirmed(true);
-            Accommodation accommodation =accommodationService.findById(reservation.getAccommodation().getId()).get();
-            accommodation.setReserved(true);
-
-            accommodationService.save(accommodation);
-            reservationRepository.save(reservation);
-        });
-    }
 }

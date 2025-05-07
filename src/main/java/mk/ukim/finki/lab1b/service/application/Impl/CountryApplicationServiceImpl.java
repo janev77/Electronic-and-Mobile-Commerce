@@ -2,6 +2,8 @@ package mk.ukim.finki.lab1b.service.application.Impl;
 
 import mk.ukim.finki.lab1b.dto.CreateCountryDto;
 import mk.ukim.finki.lab1b.dto.DisplayCountryDto;
+import mk.ukim.finki.lab1b.model.Views.HostPerCountryView;
+import mk.ukim.finki.lab1b.repository.HostPerCountryViewRepository;
 import mk.ukim.finki.lab1b.service.application.CountryApplicationService;
 import mk.ukim.finki.lab1b.service.domain.CountryService;
 import org.springframework.stereotype.Service;
@@ -13,9 +15,11 @@ import java.util.Optional;
 public class CountryApplicationServiceImpl implements CountryApplicationService {
 
     private final CountryService countryService;
+    private final HostPerCountryViewRepository hostPerCountryViewRepository;
 
-    public CountryApplicationServiceImpl(CountryService countryService) {
+    public CountryApplicationServiceImpl(CountryService countryService, HostPerCountryViewRepository hostPerCountryViewRepository) {
         this.countryService = countryService;
+        this.hostPerCountryViewRepository = hostPerCountryViewRepository;
     }
 
     @Override
@@ -41,5 +45,23 @@ public class CountryApplicationServiceImpl implements CountryApplicationService 
     @Override
     public void deleteById(Long id) {
         countryService.deleteById(id);
+    }
+
+
+
+
+    @Override
+    public List<HostPerCountryView> findAllHostsPerCountry() {
+        return hostPerCountryViewRepository.findAll();
+    }
+
+    @Override
+    public HostPerCountryView findHostPerCountry(Long id) {
+        return hostPerCountryViewRepository.findById(id).orElseThrow();
+    }
+
+    @Override
+    public void refreshMaterializedView() {
+        hostPerCountryViewRepository.refreshMaterializedView();
     }
 }

@@ -9,14 +9,26 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.Collection;
 import java.util.Collections;
+import java.util.List;
 
-
+@NamedEntityGraph(
+        name = "User.withoutTemporaryReservations",
+        attributeNodes = {
+                @NamedAttributeNode("username"),
+                @NamedAttributeNode("firstName"),
+                @NamedAttributeNode("lastname"),
+                @NamedAttributeNode("role"),
+        }
+)
 @Data
 @Entity
 @Table(name = "system_users")
 public class User implements UserDetails {
 
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Integer id;
+
     private String username;
 
     @JsonIgnore
@@ -35,6 +47,11 @@ public class User implements UserDetails {
     // to-many -> FetchType.LAZY
 //    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
 //    private List<ShoppingCart> carts;
+
+
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
+    @JsonIgnore
+    private List<TemporaryReservation> temporaryReservations;
 
     public User() {
     }

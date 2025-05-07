@@ -76,4 +76,6 @@ public class AccommodationApplicationServiceImpl implements AccommodationApplica
                     
             ));
     }
+
+
 }

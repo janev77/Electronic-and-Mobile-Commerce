@@ -17,11 +17,4 @@ public interface ReservationService {
     void deleteById(Long id);
 
 
-
-    public Optional<Reservation> addTemporaryReservation(Reservation reservation );
-
-    public List<Reservation> getTemporaryReservationsForUser(String username);
-
-    public void confirmAllReservationsForUser(String username);
-
 }

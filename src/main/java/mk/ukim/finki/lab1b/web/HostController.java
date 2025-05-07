@@ -4,7 +4,10 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import mk.ukim.finki.lab1b.dto.CreateHostDto;
 import mk.ukim.finki.lab1b.dto.DisplayHostDto;
+import mk.ukim.finki.lab1b.model.Projections.HostProjection;
+import mk.ukim.finki.lab1b.service.application.CountryApplicationService;
 import mk.ukim.finki.lab1b.service.application.HostApplicationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,10 +20,12 @@ import java.util.List;
 public class HostController {
 
     private final HostApplicationService hostApplicationService;
+    private final CountryApplicationService countryApplicationService;
 
-    public HostController(HostApplicationService hostApplicationService) {
+    public HostController(HostApplicationService hostApplicationService, CountryApplicationService countryApplicationService) {
 
         this.hostApplicationService = hostApplicationService;
+        this.countryApplicationService = countryApplicationService;
     }
 
     @GetMapping
@@ -65,4 +70,27 @@ public class HostController {
         }
         return ResponseEntity.notFound().build();
     }
+
+
+    @GetMapping("/by-country")
+    @Operation(summary = "Get number of hosts per country", description = "This endpoint returns the number of hosts for each country.")
+    public ResponseEntity<?> numOfHostsPerCountry() {
+        return ResponseEntity.status(HttpStatus.OK).body(countryApplicationService.findAllHostsPerCountry());
+    }
+
+    @GetMapping("/by-country/{id}")
+    @Operation(summary = "Get number of hosts per country by id", description = "This endpoint returns the number of hosts for each country with specific id.")
+    public ResponseEntity<?> numOfHostsPerCountryId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(countryApplicationService.findHostPerCountry(id));
+    }
+
+    @GetMapping("/names")
+    @Operation(summary = "Get names of all hosts", description = "Returns first and last names of all hosts.")
+    public ResponseEntity<List<HostProjection>> namesAndSurnamesOfHosts() {
+        return ResponseEntity.ok(hostApplicationService.getAllHostNames());
+    }
+
+
+
+
 }

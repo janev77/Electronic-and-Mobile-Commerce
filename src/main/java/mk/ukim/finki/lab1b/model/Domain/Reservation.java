@@ -11,7 +11,7 @@ public class Reservation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long Id;
+    private Long id;
 
     private String code;
 
@@ -27,9 +27,6 @@ public class Reservation {
     @JoinColumn(name = "accommodation_id")
     private Accommodation accommodation;
 
-    @ManyToOne
-    User user;
-
     boolean confirmed = false;
 
     public Reservation() {
@@ -44,14 +41,6 @@ public class Reservation {
         this.accommodation = accommodation;
     }
 
-    public User getUser() {
-        return user;
-    }
-
-    public void setUser(User user) {
-        this.user = user;
-    }
-
     public boolean isConfirmed() {
         return confirmed;
     }
@@ -61,11 +50,11 @@ public class Reservation {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public String getCode() {

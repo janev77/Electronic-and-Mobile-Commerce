@@ -2,13 +2,11 @@ package mk.ukim.finki.lab1b.service.domain.Impl;
 
 import mk.ukim.finki.lab1b.model.Domain.Accommodation;
 import mk.ukim.finki.lab1b.model.Domain.Host;
-import mk.ukim.finki.lab1b.model.Enumerations.Category;
 import mk.ukim.finki.lab1b.repository.AccommodationRepository;
 import mk.ukim.finki.lab1b.service.domain.AccommodationService;
 import mk.ukim.finki.lab1b.service.domain.HostService;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
@@ -37,7 +35,6 @@ public class AccommodationServiceImpl implements AccommodationService {
     @Override
     public Optional<Accommodation> update(Long id, Accommodation accommodation) {
         return accommodationRepository.findById(id).map(existingAccommodation -> {
-
             if (accommodation.getName() != null) {
                 existingAccommodation.setName(accommodation.getName());
             }
@@ -126,6 +123,4 @@ public class AccommodationServiceImpl implements AccommodationService {
 
         return result;
     }
-
-
 }

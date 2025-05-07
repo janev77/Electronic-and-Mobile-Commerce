@@ -4,14 +4,15 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import mk.ukim.finki.lab1b.dto.CreateAccommodationDto;
 import mk.ukim.finki.lab1b.dto.DisplayAccommodationDto;
-import mk.ukim.finki.lab1b.model.Domain.Accommodation;
 import mk.ukim.finki.lab1b.model.Enumerations.Category;
+import mk.ukim.finki.lab1b.model.Views.AccommodationPerHostView;
 import mk.ukim.finki.lab1b.service.application.AccommodationApplicationService;
+import mk.ukim.finki.lab1b.service.application.HostApplicationService;
 import mk.ukim.finki.lab1b.service.domain.AccommodationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -22,11 +23,12 @@ import java.util.Map;
 public class AccommodationController {
 
     private final AccommodationApplicationService accommodationApplicationService;
-    private final AccommodationService accommodationService;
+    private final HostApplicationService hostApplicationService;
 
-    public AccommodationController(AccommodationApplicationService accommodationApplicationService, AccommodationService accommodationService) {
+    public AccommodationController(AccommodationApplicationService accommodationApplicationService, HostApplicationService hostApplicationService) {
         this.accommodationApplicationService = accommodationApplicationService;
-        this.accommodationService = accommodationService;
+
+        this.hostApplicationService = hostApplicationService;
     }
 
     @GetMapping
@@ -64,7 +66,7 @@ public class AccommodationController {
     @DeleteMapping("/delete/{id}")
     @Operation(summary = "Delete accommodation by id", description = "This endpoint can delete specific accommodation by id.")
 
-    public ResponseEntity<Void> statistic(@PathVariable Long id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (accommodationApplicationService.findById(id).isPresent()) {
             accommodationApplicationService.deleteById(id);
             return ResponseEntity.ok().build();
@@ -72,9 +74,22 @@ public class AccommodationController {
         return ResponseEntity.notFound().build();
     }
 
-    @GetMapping("/statistic")
+    @GetMapping("/statistic") // Additional requirement
     public Map<Category, Long> statistic() {
        return accommodationApplicationService.statisticCategory();
+    }
+
+
+    @GetMapping("/by-host")
+    @Operation(summary = "Get number of accommodations by host", description = "This endpoint returns the number of accommodations for each host.")
+    public ResponseEntity<?> numOfAccommodationsPerHost() {
+        return ResponseEntity.status(HttpStatus.OK).body(hostApplicationService.findAllAccommodationsPerHost());
+    }
+
+    @GetMapping("/by-host/{id}")
+    @Operation(summary = "Get number of accommodations by host id", description = "This endpoint returns the number of accommodations for each host with specific id.")
+    public ResponseEntity<?> numOfAccommodationsPerHostId(@PathVariable Long id) {
+        return ResponseEntity.status(HttpStatus.OK).body(hostApplicationService.findAccommodationsPerHost(id));
     }
 
 }

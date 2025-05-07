@@ -37,4 +37,9 @@ public interface UserRepository extends JpaRepository<User, String> {
     @Query("select u.username, u.firstName, u.lastname from User u")
     List<UserProjection> takeUsernameAndNameAndSurnameByProjection();
 
+
+
+    @EntityGraph(value = "User.withoutTemporaryReservations", type = EntityGraph.EntityGraphType.LOAD)
+    List<User> findAll();
+
 }

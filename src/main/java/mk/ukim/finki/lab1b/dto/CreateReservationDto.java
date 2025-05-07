@@ -2,7 +2,7 @@ package mk.ukim.finki.lab1b.dto;
 
 import mk.ukim.finki.lab1b.model.Domain.Accommodation;
 import mk.ukim.finki.lab1b.model.Domain.Reservation;
-import mk.ukim.finki.lab1b.model.Domain.User;
+//import mk.ukim.finki.lab1b.model.Domain.User;
 
 import java.time.LocalDate;
 import java.util.List;

@@ -7,6 +7,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.servlet.http.HttpServletRequest;
 import mk.ukim.finki.lab1b.dto.CreateUserDto;
 import mk.ukim.finki.lab1b.dto.DisplayUserDto;
+import mk.ukim.finki.lab1b.dto.LoginResponseDto;
 import mk.ukim.finki.lab1b.dto.LoginUserDto;
 import mk.ukim.finki.lab1b.model.Exceptions.InvalidArgumentsException;
 import mk.ukim.finki.lab1b.model.Exceptions.InvalidUserCredentialsException;
@@ -54,17 +55,9 @@ public class UserController {
             ), @ApiResponse(responseCode = "404", description = "Invalid username or password")}
     )
     @PostMapping("/login")
-    public ResponseEntity<DisplayUserDto> login(HttpServletRequest request) {
-        try {
-            DisplayUserDto displayUserDto = userApplicationService.login(
-                    new LoginUserDto(request.getParameter("username"), request.getParameter("password"))
-            ).orElseThrow(InvalidUserCredentialsException::new);
-
-            request.getSession().setAttribute("user", displayUserDto.toUser());
-            return ResponseEntity.ok(displayUserDto);
-        } catch (InvalidUserCredentialsException e) {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginUserDto loginUserDto) {
+        LoginResponseDto body = userApplicationService.login(loginUserDto).orElseThrow();
+        return ResponseEntity.ok(body);
     }
 
     @Operation(summary = "User logout", description = "Ends the user's session")

@@ -1,6 +1,7 @@
 package mk.ukim.finki.lab1b.config;
 
 import mk.ukim.finki.lab1b.service.domain.UserService;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -10,13 +11,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CustomUsernamePasswordAuthenticationProvider implements AuthenticationProvider {
+public class CustomAuthenticationProvider implements AuthenticationProvider {
 
     private final UserService userService;
     private final PasswordEncoder passwordEncoder;
 
-    public CustomUsernamePasswordAuthenticationProvider(
-            UserService userService,
+    public CustomAuthenticationProvider(
+           @Lazy UserService userService,
             PasswordEncoder passwordEncoder
     ) {
         this.userService = userService;
@@ -27,10 +28,6 @@ public class CustomUsernamePasswordAuthenticationProvider implements Authenticat
     public Authentication authenticate(Authentication authentication) {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-
-        if ("".equals(username) || "".equals(password)) {
-            throw new BadCredentialsException("Invalid Credentials");
-        }
         UserDetails userDetails = userService.loadUserByUsername(username);
 
         if (!passwordEncoder.matches(password, userDetails.getPassword())) {

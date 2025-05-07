@@ -3,6 +3,7 @@ package mk.ukim.finki.lab1b.service.domain.Impl;
 import mk.ukim.finki.lab1b.model.Domain.User;
 import mk.ukim.finki.lab1b.model.Exceptions.*;
 import mk.ukim.finki.lab1b.repository.UserRepository;
+import mk.ukim.finki.lab1b.security.JwtHelper;
 import mk.ukim.finki.lab1b.service.domain.UserService;
 import mk.ukim.finki.lab1b.model.Enumerations.Role;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -15,10 +16,12 @@ public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
+    private final JwtHelper jwtHelper;
 
-    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder) {
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder, JwtHelper jwtHelper) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
+        this.jwtHelper = jwtHelper;
     }
 
     @Override
@@ -32,6 +35,8 @@ public class UserServiceImpl implements UserService {
         return userRepository.findByUsername(username).orElseThrow(() -> new UsernameNotFoundException(
                 username));
     }
+
+
 
     @Override
     public User register(
@@ -56,7 +61,21 @@ public class UserServiceImpl implements UserService {
         if (username == null || username.isEmpty() || password == null || password.isEmpty()) {
             throw new InvalidArgumentsException();
         }
-        return userRepository.findByUsernameAndPassword(username, password).orElseThrow(
-                InvalidUserCredentialsException::new);
+
+        User user = userRepository.findByUsername(username)
+                .orElseThrow(InvalidUsernameOrPasswordException::new);
+
+        if (!passwordEncoder.matches(password, user.getPassword())){
+            throw new InvalidArgumentsException();
+        }
+
+        return user;
+    }
+
+
+    @Override
+    public User getAuthenticatedUser(String token) {
+        String username = jwtHelper.extractUsername(token);
+        return findByUsername(username);
     }
 }

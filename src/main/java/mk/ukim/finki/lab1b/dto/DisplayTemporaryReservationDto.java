@@ -1,7 +1,6 @@
 package mk.ukim.finki.lab1b.dto;
 
 import mk.ukim.finki.lab1b.model.Domain.Accommodation;
-import mk.ukim.finki.lab1b.model.Domain.Reservation;
 import mk.ukim.finki.lab1b.model.Domain.TemporaryReservation;
 import mk.ukim.finki.lab1b.model.Domain.User;
 

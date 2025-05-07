@@ -1,12 +1,9 @@
 package mk.ukim.finki.lab1b.service.domain.Impl;
 
 import mk.ukim.finki.lab1b.model.Domain.Accommodation;
-import mk.ukim.finki.lab1b.model.Domain.Reservation;
 import mk.ukim.finki.lab1b.model.Domain.TemporaryReservation;
-import mk.ukim.finki.lab1b.repository.ReservationRepository;
 import mk.ukim.finki.lab1b.repository.TemporaryReservationRepository;
 import mk.ukim.finki.lab1b.service.domain.AccommodationService;
-import mk.ukim.finki.lab1b.service.domain.ReservationService;
 import mk.ukim.finki.lab1b.service.domain.TemporaryReservationService;
 import org.springframework.stereotype.Service;
 
