@@ -4,6 +4,7 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import mk.ukim.finki.lab1b.dto.CreateAccommodationDto;
 import mk.ukim.finki.lab1b.dto.DisplayAccommodationDto;
+import mk.ukim.finki.lab1b.dto.DisplayAccommodationFlowDto;
 import mk.ukim.finki.lab1b.model.Enumerations.Category;
 import mk.ukim.finki.lab1b.model.Views.AccommodationPerHostView;
 import mk.ukim.finki.lab1b.service.application.AccommodationApplicationService;
@@ -91,5 +92,16 @@ public class AccommodationController {
     public ResponseEntity<?> numOfAccommodationsPerHostId(@PathVariable Long id) {
         return ResponseEntity.status(HttpStatus.OK).body(hostApplicationService.findAccommodationsPerHost(id));
     }
+
+
+
+    @GetMapping("/flow/{id}")
+    @Operation(summary = "List accommodation by id", description = "This endpoint can list specific accommodation by id.")
+
+    public ResponseEntity<DisplayAccommodationFlowDto> findByIdFlow(@PathVariable Long id) {
+        return accommodationApplicationService.findByIdFlow(id).map(ResponseEntity::ok).orElse(ResponseEntity.notFound().build());
+    }
+
+
 
 }

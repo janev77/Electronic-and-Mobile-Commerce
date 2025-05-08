@@ -123,4 +123,9 @@ public class AccommodationServiceImpl implements AccommodationService {
 
         return result;
     }
+
+    @Override
+    public Optional<Accommodation> findByIdFlow(Long id) {
+        return accommodationRepository.findById(id);
+    }
 }

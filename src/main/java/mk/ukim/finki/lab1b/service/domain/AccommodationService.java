@@ -21,4 +21,8 @@ public interface AccommodationService {
 
     HashMap<String, Integer> statisticCategory();
 
+
+    Optional<Accommodation> findByIdFlow(Long id);
+
+
 }

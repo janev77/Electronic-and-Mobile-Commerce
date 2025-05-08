@@ -2,6 +2,7 @@ package mk.ukim.finki.lab1b.service.application.Impl;
 
 import mk.ukim.finki.lab1b.dto.CreateAccommodationDto;
 import mk.ukim.finki.lab1b.dto.DisplayAccommodationDto;
+import mk.ukim.finki.lab1b.dto.DisplayAccommodationFlowDto;
 import mk.ukim.finki.lab1b.model.Domain.Accommodation;
 import mk.ukim.finki.lab1b.model.Domain.Host;
 import mk.ukim.finki.lab1b.model.Enumerations.Category;
@@ -75,6 +76,12 @@ public class AccommodationApplicationServiceImpl implements AccommodationApplica
                     Collectors.counting()
                     
             ));
+    }
+
+    @Override
+    public Optional<DisplayAccommodationFlowDto> findByIdFlow(Long id) {
+        return accommodationService.findByIdFlow(id).map(DisplayAccommodationFlowDto::from);
+
     }
 
 
