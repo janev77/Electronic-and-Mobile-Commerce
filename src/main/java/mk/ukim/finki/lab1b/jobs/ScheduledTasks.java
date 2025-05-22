@@ -12,8 +12,8 @@ public class ScheduledTasks {
         this.hostApplicationService = hostApplicationService;
     }
 
-    //@Scheduled(cron = "*/59 * * * * *")
-    @Scheduled(cron = "0 0 0 * * ?")
+    @Scheduled(cron = "*/59 * * * * *")
+    //@Scheduled(cron = "0 0 0 * * ?")
     public void refreshMaterializedView() {
         System.out.println("Refreshed materialized view");
         this.hostApplicationService.refreshMaterializedView();

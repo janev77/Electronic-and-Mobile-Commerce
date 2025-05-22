@@ -8,17 +8,21 @@ import mk.ukim.finki.lab1b.model.Enumerations.Category;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public record DisplayAccommodationFlowDto(Long id, String name, Category category, Long host, Integer numRooms, Host host1,
-                                          Country country) {
+public record DisplayAccommodationFlowDto(
+        Long id,
+        String name,
+        Category category,
+        Host host,
+        Integer numRooms,
+        Country country
+) {
     public static DisplayAccommodationFlowDto from(Accommodation accommodation) {
-
         return new DisplayAccommodationFlowDto(
                 accommodation.getId(),
                 accommodation.getName(),
                 accommodation.getCategory(),
-                accommodation.getHost().getId(),
+                accommodation.getHost(),              // Only this is needed
                 accommodation.getNumRooms(),
-                accommodation.getHost(),
                 accommodation.getHost().getCountry()
         );
     }
@@ -30,5 +34,4 @@ public record DisplayAccommodationFlowDto(Long id, String name, Category categor
     public Accommodation toAccommodation(Category category, Host host) {
         return new Accommodation(name, category, host, numRooms);
     }
-
 }

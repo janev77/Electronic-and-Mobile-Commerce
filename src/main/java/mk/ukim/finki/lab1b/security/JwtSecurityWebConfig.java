@@ -68,14 +68,11 @@ public class JwtSecurityWebConfig {
                                                 "api/user/logout"
                                         )
                                         .permitAll()
-//                                .requestMatchers(
-//                                        "/api/categories",
-//                                        "/api/manufacturers",
-//                                        "/api/products"
-//                                )
-//                                .hasAnyRole("USER", "ADMIN")
                                         .anyRequest()
-                                        .hasAnyRole("USER", "ADMIN")
+                                        .permitAll()
+                                //.hasAnyRole("USER", "ADMIN")
+                                        //.anyRequest()
+                                        //.hasAnyRole("USER", "ADMIN")
                 )
                 .sessionManagement(sessionManagementConfigurer ->
                         sessionManagementConfigurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
